@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const ponentes = await getCollection('ponentes');
+---
+<BaseLayout title="Ponentes">
+  <h1>Nuestros Ponentes</h1>
+  <ul>
+    {ponentes.map((ponente) => (
+      <li>
+        <a href={`/ponentes/${ponente.id}`}>{ponente.data.nombre}</a>
+        <p>{ponente.data.bio}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

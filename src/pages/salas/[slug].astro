@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const salas = await getCollection('salas');
+  return salas.map((sala) => ({
+    params: { slug: sala.id },
+    props: { sala },
+  }));
+}
+
+const { sala } = Astro.props;
+const { Content } = await render(sala);
+---
+<BaseLayout title={sala.data.titulo}>
+  <article>
+    <h1>{sala.data.titulo}</h1>
+    <p>{sala.data.descripcion}</p>
+    <Content />
+  </article>
+  <p><a href="/salas">← Volver a salas</a></p>
+</BaseLayout>

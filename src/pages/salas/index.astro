@@ -1,0 +1,17 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const salas = await getCollection('salas');
+---
+<BaseLayout title="Salas">
+  <h1>Nuestras Salas</h1>
+  <ul>
+    {salas.map((sala) => (
+      <li>
+        <a href={`/salas/${sala.id}`}>{sala.data.titulo}</a>
+        <p>{sala.data.descripcion}</p>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>
