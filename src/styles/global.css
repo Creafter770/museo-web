@@ -1,0 +1,45 @@
+:root {
+  --color-fondo: #faf8f3; /* Blanco roto, cálido */
+  --color-texto: #2c2c2c; /* Gris oscuro */
+  --color-acento: #8b5a3c; /* Tono tierra */
+  --fuente-titulos: Georgia, serif;
+  --fuente-cuerpo: system-ui, -apple-system, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--fuente-cuerpo);
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  line-height: 1.6;
+}
+
+h1, h2, h3 {
+  font-family: var(--fuente-titulos);
+  color: var(--color-acento);
+}
+
+header {
+  background-color: var(--color-acento);
+  padding: 1rem;
+}
+
+nav a {
+  color: white;
+  margin-right: 1rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+}
