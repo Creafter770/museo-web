@@ -20,7 +20,7 @@
 8. [Despliegue en GitHub Pages](#8-despliegue-en-github-pages)
 9. [Solución de problemas](#9-solución-de-problemas)
 10. [Notas para el contexto cubano](#10-notas-para-el-contexto-cubano)
-11. [Anexos](#anexos)
+11. [Anexos](#11-anexos)
 
 ---
 
@@ -300,7 +300,7 @@ export const collections = { salas, contactos };
 **Explicación línea por línea:**
 
 | Línea                                 | Qué hace                                            |
-|---------------------------------------|                                                     |
+|---------------------------------------|-----------------------------------------------------|
 |`import { defineCollection, z }`       | Importa el creador de colecciones y el validador Zod|
 |`import { glob }`                      | Importa el cargador de archivos por patrón          |
 |`const salas = defineCollection({...})`| Crea la colección `salas`                           |
@@ -794,16 +794,16 @@ export default defineConfig({
 
 ### 9.1 Errores comunes
 
-| Error                          | Causa                                  | Solución           |
-|--------------------------------|----------------------------------------|--------------------|
-| `LegacyContentConfigError`     | `content.config.ts` en la ruta antigua | Moverlo a `src/content.config.ts`                                                                             |
-| `Could not import X`           | Ruta relativa mal                      | Contar los `../` correctamente                                                                                  |
-| `implicitly has an 'any' type` | Variable no declarada o typo           | Revisar nombre de la variable                                                                                    |
-| 404 en ruta dinámica           | Falta `[slug].astro` o el `.md`        | Verificar archivos |
-| Slot vacío                     | Falta `<slot />` en el Layout          | Añadirlo           |
-| Imagen rota                    | Ruta incorrecta                        | Verificar `public/imagenes/...`                                                                                  |
-| `ENOTFOUND` al instalar        | Registro npm bloqueado                 | Configurar mirror (ver 2.5)                                                                                      |
-| `ETIMEDOUT` en npm             | Conexión inestable                     | Aumentar timeouts  |
+| Error                          | Causa                                  | Solución                          |
+|--------------------------------|----------------------------------------|-----------------------------------|
+| `LegacyContentConfigError`     | `content.config.ts` mal ubicado        | Moverlo a `src/content.config.ts` |
+| `Could not import X`           | Ruta relativa mal                      | Contar los `../` correctamente    |
+| `implicitly has an 'any' type` | Variable no declarada o typo           | Revisar nombre de la variable     |
+| 404 en ruta dinámica           | Falta `[slug].astro` o el `.md`        | Verificar archivos                |
+| Slot vacío                     | Falta `<slot />` en el Layout          | Añadirlo                          |
+| Imagen rota                    | Ruta incorrecta                        | Verificar `public/imagenes/...`   |
+| `ENOTFOUND` al instalar        | Registro npm bloqueado                 | Configurar mirror (ver 2.5)       |
+| `ETIMEDOUT` en npm             | Conexión inestable                     | Aumentar timeouts                 |
 
 ### 9.2 Cambios de API en Astro
 
@@ -901,7 +901,7 @@ git pull              # Traer del remoto
 ### B. Estructura de URLs
 
 | Archivo                        | URL              |
-|--------------------------------|---               |
+|--------------------------------|------------------|
 | `pages/index.astro`            | `/`              |
 | `pages/salas/index.astro`      | `/salas`         |
 | `pages/salas/[slug].astro`     | `/salas/:id`     |
