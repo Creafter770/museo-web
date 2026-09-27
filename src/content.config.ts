@@ -7,18 +7,18 @@ const salas = defineCollection({
     titulo: z.string(),
     descripcion: z.string(),
     imagen_principal: z.string(),
-    ponentes: z.array(z.string()).optional(),
   }),
 });
 
-const ponentes = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/ponentes' }),
+const contactos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/contactos' }),
   schema: z.object({
     nombre: z.string(),
     bio: z.string(),
     foto: z.string(),
-    especialidad: z.string().optional(),
+    telefono: z.string().optional(),
+    email: z.string().optional(),
   }),
 });
 
-export const collections = { salas, ponentes };
+export const collections = { salas, contactos };

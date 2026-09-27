@@ -15,9 +15,20 @@ const { Content } = await render(sala);
 ---
 <BaseLayout title={sala.data.titulo}>
   <article>
+    <p><a href="/salas">← Volver a salas</a></p>
     <h1>{sala.data.titulo}</h1>
+    <img src={sala.data.imagen_principal} alt={sala.data.titulo} class="portada" />
     <p>{sala.data.descripcion}</p>
     <Content />
   </article>
-  <p><a href="/salas">← Volver a salas</a></p>
 </BaseLayout>
+
+<style>
+  .portada {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+</style>

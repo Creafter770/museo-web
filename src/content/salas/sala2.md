@@ -1,6 +1,6 @@
 ---
-titulo: "La Naturaleza y el Hombre"
-descripcion: "Explora la gran variedad de especies locales de la flora y la fauna"
+titulo: "Sala de Historia"
+descripcion: "Recorre los primeros años del museo."
 imagen_principal: "/imagenes/sala1.jpg"
 ponentes: ["juan-perez"]
 ---
@@ -13,4 +13,3 @@ Aquí va el texto completo de la sala. Puedes usar **Markdown** para dar formato
 
 - Objeto 1
 - Objeto 2
-

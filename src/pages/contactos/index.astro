@@ -3,17 +3,17 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
 
-const salas = await getCollection('salas');
+const contactos = await getCollection('contactos');
 ---
-<BaseLayout title="Salas">
-  <h1>Nuestras Salas</h1>
+<BaseLayout title="Contactos">
+  <h1>Contactos</h1>
   <div class="grid">
-    {salas.map((sala) => (
+    {contactos.map((contacto) => (
       <Card
-        titulo={sala.data.titulo}
-        descripcion={sala.data.descripcion}
-        imagen={sala.data.imagen_principal}
-        href={`/salas/${sala.id}`}
+        titulo={contacto.data.nombre}
+        descripcion={contacto.data.bio}
+        imagen={contacto.data.foto}
+        href={`/contactos/${contacto.id}`}
       />
     ))}
   </div>
