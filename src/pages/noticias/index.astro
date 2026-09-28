@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Card from "../../components/Card.astro";
+
+const noticias = (await getCollection("noticias")).sort(
+  (a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime(),
+);
+---
+
+<BaseLayout title="Noticias">
+  <h1>Noticias</h1>
+  <p>Mantente al día con las novedades del museo.</p>
+  <div class="grid">
+    {
+      noticias.map((noticia) => (
+        <Card
+          titulo={noticia.data.titulo}
+          descripcion={noticia.data.resumen}
+          imagen={noticia.data.imagen}
+          href={`/noticias/${noticia.id}`}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+</style>

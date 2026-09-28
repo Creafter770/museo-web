@@ -1,12 +1,13 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
 
 interface Props {
   title: string;
 }
 const { title } = Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -22,6 +23,8 @@ const { title } = Astro.props;
           <a href="/">Inicio</a>
           <a href="/sobre">Sobre</a>
           <a href="/salas">Salas</a>
+          <a href="/noticias">Noticias</a>
+          <a href="/eventos">Eventos</a>
           <a href="/servicios">Servicios</a>
           <a href="/contactos">Contactos</a>
           <a href="/normativa">Normativa</a>
@@ -41,12 +44,16 @@ const { title } = Astro.props;
     <aside class="drawer" id="drawer" aria-hidden="true">
       <div class="drawer-header">
         <span class="drawer-titulo">Menú</span>
-        <button class="drawer-cerrar" id="menu-cerrar" aria-label="Cerrar menú">×</button>
+        <button class="drawer-cerrar" id="menu-cerrar" aria-label="Cerrar menú"
+          >×</button
+        >
       </div>
       <nav class="drawer-nav">
         <a href="/">Inicio</a>
         <a href="/sobre">Sobre</a>
         <a href="/salas">Salas</a>
+        <a href="/noticias">Noticias</a>
+        <a href="/eventos">Eventos</a>
         <a href="/servicios">Servicios</a>
         <a href="/contactos">Contactos</a>
         <a href="/normativa">Normativa</a>
@@ -63,29 +70,29 @@ const { title } = Astro.props;
     </footer>
 
     <script>
-      const botonAbrir = document.getElementById('menu-abrir');
-      const botonCerrar = document.getElementById('menu-cerrar');
-      const drawer = document.getElementById('drawer');
-      const overlay = document.getElementById('overlay');
-      const enlacesDrawer = document.querySelectorAll('.drawer-nav a');
+      const botonAbrir = document.getElementById("menu-abrir");
+      const botonCerrar = document.getElementById("menu-cerrar");
+      const drawer = document.getElementById("drawer");
+      const overlay = document.getElementById("overlay");
+      const enlacesDrawer = document.querySelectorAll(".drawer-nav a");
 
       function abrirDrawer() {
-        drawer?.classList.add('activo');
-        overlay?.classList.add('activo');
-        document.body.style.overflow = 'hidden';
+        drawer?.classList.add("activo");
+        overlay?.classList.add("activo");
+        document.body.style.overflow = "hidden";
       }
 
       function cerrarDrawer() {
-        drawer?.classList.remove('activo');
-        overlay?.classList.remove('activo');
-        document.body.style.overflow = '';
+        drawer?.classList.remove("activo");
+        overlay?.classList.remove("activo");
+        document.body.style.overflow = "";
       }
 
-      botonAbrir?.addEventListener('click', abrirDrawer);
-      botonCerrar?.addEventListener('click', cerrarDrawer);
-      overlay?.addEventListener('click', cerrarDrawer);
+      botonAbrir?.addEventListener("click", abrirDrawer);
+      botonCerrar?.addEventListener("click", cerrarDrawer);
+      overlay?.addEventListener("click", cerrarDrawer);
       enlacesDrawer.forEach((enlace) => {
-        enlace.addEventListener('click', cerrarDrawer);
+        enlace.addEventListener("click", cerrarDrawer);
       });
     </script>
   </body>

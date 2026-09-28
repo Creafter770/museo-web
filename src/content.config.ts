@@ -21,4 +21,26 @@ const contactos = defineCollection({
   }),
 });
 
-export const collections = { salas, contactos };
+const noticias = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/noticias' }),
+  schema: z.object({
+    titulo: z.string(),
+    fecha: z.string(),
+    resumen: z.string(),
+    imagen: z.string().optional(),
+    autor: z.string().optional(),
+  }),
+});
+
+const eventos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/eventos' }),
+  schema: z.object({
+    titulo: z.string(),
+    fecha: z.string(),
+    descripcion: z.string(),
+    imagen: z.string().optional(),
+    lugar: z.string().optional(),
+  }),
+});
+
+export const collections = { salas, contactos, noticias, eventos };

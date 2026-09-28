@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Card from "../../components/Card.astro";
+
+const eventos = (await getCollection("eventos")).sort(
+  (a, b) => new Date(a.data.fecha).getTime() - new Date(b.data.fecha).getTime(),
+);
+---
+
+<BaseLayout title="Eventos">
+  <h1>Eventos y Actividades</h1>
+  <p>Consulta nuestra programación cultural.</p>
+  <div class="grid">
+    {
+      eventos.map((evento) => (
+        <Card
+          titulo={`${evento.data.fecha} — ${evento.data.titulo}`}
+          descripcion={evento.data.descripcion}
+          imagen={evento.data.imagen}
+          href={`/eventos/${evento.id}`}
+        />
+      ))
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+</style>
