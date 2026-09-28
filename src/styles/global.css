@@ -1,7 +1,7 @@
 :root {
-  --color-fondo: #faf8f3; /* Blanco roto, cálido */
-  --color-texto: #2c2c2c; /* Gris oscuro */
-  --color-acento: #8b5a3c; /* Tono tierra */
+  --color-fondo: #faf8f3;
+  --color-texto: #2c2c2c;
+  --color-acento: #8b5a3c;
   --fuente-titulos: Georgia, serif;
   --fuente-cuerpo: system-ui, -apple-system, sans-serif;
 }
@@ -14,23 +14,164 @@ body {
   line-height: 1.6;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--fuente-titulos);
   color: var(--color-acento);
 }
 
+/* Header */
 header {
   background-color: var(--color-acento);
   padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-nav a {
+.header-contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
   color: white;
-  margin-right: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.menu-desktop {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.menu-desktop a {
+  color: white;
   text-decoration: none;
   font-weight: bold;
+  font-size: 0.95rem;
+  transition: opacity 0.2s;
 }
 
+.menu-desktop a:hover {
+  opacity: 0.8;
+}
+
+.menu-boton {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0.5rem;
+}
+
+.menu-boton span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+
+/* Overlay (fondo oscuro) */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.overlay.activo {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Drawer lateral */
+.drawer {
+  position: fixed;
+  top: 0;
+  right: -220px;
+  width: 200px;
+  max-width: 85vw;
+  height: 100vh;
+  background: var(--color-acento);
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.3);
+  transition: right 0.3s ease;
+}
+
+.drawer.activo {
+  right: 0;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.drawer-titulo {
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.drawer-cerrar {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 0.5rem;
+  transition: opacity 0.2s;
+}
+
+.drawer-cerrar:hover {
+  opacity: 0.7;
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.drawer-nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0.85rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background-color 0.2s, padding-left 0.2s;
+}
+
+.drawer-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding-left: 2rem;
+}
+
+.drawer-nav a:last-child {
+  border-bottom: none;
+}
+
+/* Contenido principal  */
 main {
   max-width: 800px;
   margin: 0 auto;
@@ -44,7 +185,7 @@ footer {
   color: #666;
 }
 
-/* Estilos para páginas estáticas (sobre, servicios, normativa, transparencia) */
+/* Páginas estáticas */
 .pagina-estatica {
   max-width: 800px;
   margin: 0 auto;
@@ -59,7 +200,7 @@ footer {
   color: var(--color-acento);
 }
 
-/* Botones de acción */
+/*  Botones  */
 .boton-pago {
   display: inline-block;
   background-color: var(--color-acento);
@@ -79,7 +220,7 @@ footer {
   background-color: #4a2f1c;
 }
 
-/* Grids reutilizables */
+/* Servicios  */
 .servicios-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -113,4 +254,31 @@ footer {
   margin-top: 2rem;
   font-size: 0.9rem;
   color: #666;
+}
+
+/*  Estilos móviles  */
+@media (max-width: 768px) {
+  .menu-desktop {
+    display: none;
+  }
+
+  .menu-boton {
+    display: flex;
+  }
+
+  main {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
+  .servicios-grid {
+    grid-template-columns: 1fr;
+  }
 }

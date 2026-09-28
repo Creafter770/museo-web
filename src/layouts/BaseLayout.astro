@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+
 interface Props {
   title: string;
 }
@@ -14,7 +15,35 @@ const { title } = Astro.props;
   </head>
   <body>
     <header>
-      <nav>
+      <div class="header-contenido">
+        <a href="/" class="logo">Museo Local</a>
+
+        <nav class="menu-desktop">
+          <a href="/">Inicio</a>
+          <a href="/sobre">Sobre</a>
+          <a href="/salas">Salas</a>
+          <a href="/servicios">Servicios</a>
+          <a href="/contactos">Contactos</a>
+          <a href="/normativa">Normativa</a>
+          <a href="/transparencia">Transparencia</a>
+        </nav>
+
+        <button class="menu-boton" id="menu-abrir" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="overlay" id="overlay"></div>
+
+    <aside class="drawer" id="drawer" aria-hidden="true">
+      <div class="drawer-header">
+        <span class="drawer-titulo">Menú</span>
+        <button class="drawer-cerrar" id="menu-cerrar" aria-label="Cerrar menú">×</button>
+      </div>
+      <nav class="drawer-nav">
         <a href="/">Inicio</a>
         <a href="/sobre">Sobre</a>
         <a href="/salas">Salas</a>
@@ -23,12 +52,41 @@ const { title } = Astro.props;
         <a href="/normativa">Normativa</a>
         <a href="/transparencia">Transparencia</a>
       </nav>
-    </header>
+    </aside>
+
     <main>
       <slot />
     </main>
+
     <footer>
       <p>&copy; 2026 Museo Local</p>
     </footer>
+
+    <script>
+      const botonAbrir = document.getElementById('menu-abrir');
+      const botonCerrar = document.getElementById('menu-cerrar');
+      const drawer = document.getElementById('drawer');
+      const overlay = document.getElementById('overlay');
+      const enlacesDrawer = document.querySelectorAll('.drawer-nav a');
+
+      function abrirDrawer() {
+        drawer?.classList.add('activo');
+        overlay?.classList.add('activo');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function cerrarDrawer() {
+        drawer?.classList.remove('activo');
+        overlay?.classList.remove('activo');
+        document.body.style.overflow = '';
+      }
+
+      botonAbrir?.addEventListener('click', abrirDrawer);
+      botonCerrar?.addEventListener('click', cerrarDrawer);
+      overlay?.addEventListener('click', cerrarDrawer);
+      enlacesDrawer.forEach((enlace) => {
+        enlace.addEventListener('click', cerrarDrawer);
+      });
+    </script>
   </body>
 </html>
