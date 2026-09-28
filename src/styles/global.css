@@ -43,3 +43,74 @@ footer {
   font-size: 0.9rem;
   color: #666;
 }
+
+/* Estilos para páginas estáticas (sobre, servicios, normativa, transparencia) */
+.pagina-estatica {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pagina-estatica h1 {
+  margin-bottom: 1.5rem;
+}
+
+.pagina-estatica h2 {
+  margin-top: 1.5rem;
+  color: var(--color-acento);
+}
+
+/* Botones de acción */
+.boton-pago {
+  display: inline-block;
+  background-color: var(--color-acento);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.boton-pago:hover {
+  background-color: #6b4529;
+}
+
+.boton-pago:active {
+  background-color: #4a2f1c;
+}
+
+/* Grids reutilizables */
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.servicio-card {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s;
+}
+
+.servicio-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.servicio-card h3 {
+  margin-top: 0;
+}
+
+.precio {
+  font-weight: bold;
+  color: var(--color-acento);
+}
+
+.nota-pago {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #666;
+}
