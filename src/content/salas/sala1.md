@@ -1,7 +1,7 @@
 ---
 titulo: "La Naturaleza y el Hombre"
 descripcion: "Explora la gran variedad de especies locales de la flora y la fauna"
-imagen_principal: "/imagenes/sala1.jpg"
+imagen_principal: "/imagenes/salas/sala1/sala-naturaleza.jpg"
 ponentes: ["juan-perez"]
 ---
 

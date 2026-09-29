@@ -6,6 +6,12 @@
   --fuente-cuerpo: system-ui, -apple-system, sans-serif;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: var(--fuente-cuerpo);
@@ -36,13 +42,26 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 60px;
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo img {
+  height: 45px;
+  width: auto;
+  display: block;
+}
+
+.logo-texto {
   color: white;
   font-weight: bold;
   font-size: 1.2rem;
-  text-decoration: none;
+  font-family: var(--fuente-titulos);
 }
 
 .menu-desktop {
@@ -228,6 +247,14 @@ footer {
   margin-top: 2rem;
 }
 
+.servicio-imagen {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
 .servicio-card {
   border: 1px solid #eee;
   border-radius: 8px;
@@ -258,6 +285,10 @@ footer {
 
 /*  Estilos móviles  */
 @media (max-width: 768px) {
+  .logo-texto {
+    display: none;
+  }
+
   .menu-desktop {
     display: none;
   }

@@ -1,17 +1,279 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../components/Card.astro";
+
+const salas = (await getCollection("salas")).slice(0, 2);
+
+const noticias = (await getCollection("noticias"))
+  .sort(
+    (a, b) =>
+      new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime(),
+  )
+  .slice(0, 2);
+
+const eventos = (await getCollection("eventos"))
+  .sort(
+    (a, b) =>
+      new Date(a.data.fecha).getTime() - new Date(b.data.fecha).getTime(),
+  )
+  .slice(0, 2);
 ---
+
 <BaseLayout title="Inicio">
-  <h1>Bienvenido al Museo Local</h1>
-  <p>Explora nuestras salas y conoce a nuestros contactos.</p>
-  <ul>
-    <li><a href="/sobre">Sobre la Institución</a></li>
-    <li><a href="/salas">Ver todas las salas</a></li>
-    <li><a href="/noticias">Últimas noticias</a></li>
-    <li><a href="/eventos">Eventos y actividades</a></li>
-    <li><a href="/servicios">Ver todos nuestros servicios</a></li>
-    <li><a href="/contactos">Ver todos los contactos</a></li>
-    <li><a href="/normativa">Ver nuestra normativa</a></li>
-    <li><a href="/transparencia">Ver más acerca de la Institución</a></li>
-  </ul>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-contenido">
+      <h1>Bienvenido al Museo Municipal "19 de Diciembre"</h1>
+      <p>
+        Un espacio para conocer, preservar y disfrutar el patrimonio histórico y
+        natural de Caimanera.
+      </p>
+      <div class="hero-botones">
+        <a href="/salas" class="boton-primario">Explorar salas</a>
+        <a href="/eventos" class="boton-secundario">Ver eventos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALAS DESTACADAS -->
+  <section class="seccion">
+    <h2>Nuestras Salas</h2>
+    <div class="grid">
+      {
+        salas.map((sala) => (
+          <Card
+            titulo={sala.data.titulo}
+            descripcion={sala.data.descripcion}
+            imagen={sala.data.imagen_principal}
+            href={`/salas/${sala.id}`}
+          />
+        ))
+      }
+    </div>
+    <p class="ver-mas"><a href="/salas">Ver todas las salas →</a></p>
+  </section>
+
+  <!-- ÚLTIMAS NOTICIAS -->
+  {
+    noticias.length > 0 && (
+      <section class="seccion">
+        <h2>Últimas Noticias</h2>
+        <div class="grid">
+          {noticias.map((noticia) => (
+            <Card
+              titulo={noticia.data.titulo}
+              descripcion={noticia.data.resumen}
+              imagen={noticia.data.imagen}
+              href={`/noticias/${noticia.id}`}
+            />
+          ))}
+        </div>
+        <p class="ver-mas">
+          <a href="/noticias">Ver todas las noticias →</a>
+        </p>
+      </section>
+    )
+  }
+
+  <!-- PRÓXIMOS EVENTOS -->
+  {
+    eventos.length > 0 && (
+      <section class="seccion">
+        <h2>Próximos Eventos</h2>
+        <div class="grid">
+          {eventos.map((evento) => (
+            <Card
+              titulo={`${evento.data.fecha} — ${evento.data.titulo}`}
+              descripcion={evento.data.descripcion}
+              imagen={evento.data.imagen}
+              href={`/eventos/${evento.id}`}
+            />
+          ))}
+        </div>
+        <p class="ver-mas">
+          <a href="/eventos">Ver todos los eventos →</a>
+        </p>
+      </section>
+    )
+  }
+
+  <!-- VISÍTANOS -->
+  <section class="seccion visita">
+    <h2>Visítanos</h2>
+    <div class="visita-grid">
+      <div>
+        <h3>Horario</h3>
+        <p>[Pendiente: horario del museo]</p>
+      </div>
+      <div>
+        <h3>Dirección</h3>
+        <p>[Pendiente: dirección física]</p>
+      </div>
+      <div>
+        <h3>Entrada</h3>
+        <p>Visita guiada: 5 CUP por persona</p>
+      </div>
+    </div>
+    <p class="ver-mas">
+      <a href="/contactos">Más información de contacto →</a>
+    </p>
+  </section>
 </BaseLayout>
+
+<style>
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #8b5a3c 0%, #6b4529 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  .hero-contenido {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .hero h1 {
+    color: white;
+    font-size: 2rem;
+    margin: 0 0 1rem 0;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    margin: 0 0 2rem 0;
+    opacity: 0.95;
+  }
+  .hero-botones {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .boton-primario,
+  .boton-secundario {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition:
+      background-color 0.2s,
+      transform 0.2s;
+  }
+  .boton-primario {
+    background: white;
+    color: #8b5a3c;
+  }
+  .boton-primario:hover {
+    background: #f0ebe3;
+    transform: translateY(-2px);
+  }
+  .boton-secundario {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+  }
+  .boton-secundario:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+
+  /* SECCIONES */
+  .seccion {
+    margin-bottom: 3rem;
+  }
+  .seccion h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--color-acento);
+    padding-bottom: 0.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .ver-mas {
+    text-align: right;
+    margin-top: 1rem;
+  }
+  .ver-mas a {
+    color: var(--color-acento);
+    text-decoration: none;
+    font-weight: bold;
+  }
+  .ver-mas a:hover {
+    text-decoration: underline;
+  }
+
+  /* VISÍTANOS */
+  .visita-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+  .visita-grid h3 {
+    color: var(--color-acento);
+    margin-bottom: 0.5rem;
+  }
+
+  /* MÓVIL */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 2rem 1rem;
+    }
+    .hero h1 {
+      font-size: 1.5rem;
+    }
+    .hero p {
+      font-size: 1rem;
+    }
+    .hero-botones {
+      flex-direction: column;
+    }
+    .boton-primario,
+    .boton-secundario {
+      width: 100%;
+      text-align: center;
+    }
+    .seccion h2 {
+      font-size: 1.3rem;
+    }
+  }
+
+  /* Vista web */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 1.5rem 1rem;
+      margin-bottom: 2rem;
+      border-radius: 8px;
+    }
+
+    .hero h1 {
+      font-size: 1.4rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.5;
+    }
+
+    .hero-botones {
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .boton-primario,
+    .boton-secundario {
+      width: 100%;
+      text-align: center;
+      padding: 0.55rem 1rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
