@@ -5,7 +5,7 @@
 **Descripción:** Página estática para el Museo Municipal "19 de Diciembre", Caimanera.
 **Stack:** Astro 7.3.5 + Node.js 22 + TypeScript + Git + GitHub Pages
 **Fecha de inicio:** Septiembre 25/2026
-**Última actualización:** Septiembre 28/2026
+**Última actualización:** Septiembre 29/2026
 
 ---
 
@@ -52,6 +52,7 @@ Astro es un framework web orientado al contenido que genera HTML estático. Sus 
 - **Colección:** grupo de archivos `.md` con la misma estructura.
 - **Drawer:** panel lateral deslizante (menú móvil).
 - **Media query:** regla CSS condicional según el tamaño de pantalla.
+- **Footer:** pie de página común a todas las páginas.
 
 ---
 
@@ -126,18 +127,21 @@ Verificar: `npm config get registry`
 museo-web/
 ├── public/                      # Archivos estáticos
 │   └── imagenes/
+│       ├── logo.png
 │       ├── salas/
-│       └── contactos/
+│       ├── contactos/
+│       ├── noticias/
+│       ├── eventos/
+│       └── servicios/
 ├── src/
 │   ├── components/              # Componentes reutilizables
-│   │   └── Card.astro           # Tarjeta de sala/contacto
+│   │   ├── Card.astro           # Tarjeta de sala/noticia/evento
+│   │   └── Footer.astro         # Pie de página común
 │   ├── content/                 # Contenido en Markdown
 │   │   ├── salas/
-│   │   │   ├── sala1.md
-│   │   │   └── sala2.md
-│   │   └── contactos/
-│   │       ├── director.md
-│   │       └── institucion.md
+│   │   ├── contactos/
+│   │   ├── noticias/
+│   │   └── eventos/
 │   ├── layouts/                 # Plantillas base
 │   │   └── BaseLayout.astro
 │   ├── pages/                   # Rutas del sitio
@@ -146,12 +150,21 @@ museo-web/
 │   │   ├── servicios.astro      # /servicios
 │   │   ├── normativa.astro      # /normativa
 │   │   ├── transparencia.astro  # /transparencia
+│   │   ├── accesibilidad.astro  # /accesibilidad
+│   │   ├── privacidad.astro     # /privacidad
+│   │   ├── mapa-sitio.astro     # /mapa-sitio
 │   │   ├── salas/
 │   │   │   ├── index.astro      # /salas
 │   │   │   └── [slug].astro     # /salas/:id
-│   │   └── contactos/
-│   │       ├── index.astro      # /contactos
-│   │       └── [slug].astro     # /contactos/:id
+│   │   ├── contactos/
+│   │   │   ├── index.astro      # /contactos
+│   │   │   └── [slug].astro     # /contactos/:id
+│   │   ├── noticias/
+│   │   │   ├── index.astro      # /noticias
+│   │   │   └── [slug].astro     # /noticias/:id
+│   │   └── eventos/
+│   │       ├── index.astro      # /eventos
+│   │       └── [slug].astro     # /eventos/:id
 │   ├── styles/
 │   │   └── global.css           # CSS global
 │   └── content.config.ts        # Definición de colecciones
@@ -203,7 +216,7 @@ Array de entradas: [{id, data, body}, ...]
                 │
                 ▼
         BaseLayout.astro
-        <slot />
+        <slot /> + <Footer />
                 │
                 ▼
         HTML estático final
@@ -229,7 +242,7 @@ Las páginas nunca tocan el sistema de archivos. Piden al sistema por el **nombr
 Genera una ruta por cada entrada. El **nombre del archivo** se convierte en el **`id`**, y el `id` en la URL.
 
 - `sala1.md` → `/salas/sala1`
-- `director.md` → `/contactos/director`
+- `bienvenida.md` → `/noticias/bienvenida`
 
 ### 4.3 Regla del `slug` vs `id`
 
@@ -248,6 +261,11 @@ El `id` es el nombre del archivo sin extensión.
 - Cuenta cuántas carpetas hay entre tu archivo y `src/`. Cada carpeta es un `../`.
 - Desde `src/pages/salas/index.astro` → `../../layouts/`.
 - Desde `src/pages/index.astro` → `../layouts/`.
+
+**Regla de imports de componentes:**
+- Correcto: `import Footer from '../components/Footer.astro';`
+- Incorrecto: `import { Footer } from '../components/Footer.astro';`
+- Los componentes de Astro son **exports default**, no exports nombrados. **Sin llaves.**
 
 ---
 
@@ -281,7 +299,29 @@ const contactos = defineCollection({
   }),
 });
 
-export const collections = { salas, contactos };
+const noticias = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/noticias' }),
+  schema: z.object({
+    titulo: z.string(),
+    fecha: z.string(),
+    resumen: z.string(),
+    imagen: z.string().optional(),
+    autor: z.string().optional(),
+  }),
+});
+
+const eventos = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/eventos' }),
+  schema: z.object({
+    titulo: z.string(),
+    fecha: z.string(),
+    descripcion: z.string(),
+    imagen: z.string().optional(),
+    lugar: z.string().optional(),
+  }),
+});
+
+export const collections = { salas, contactos, noticias, eventos };
 ```
 
 **Explicación línea por línea:**
@@ -306,20 +346,35 @@ export const collections = { salas, contactos };
 
 ### 5.2 `src/layouts/BaseLayout.astro`
 
-**Propósito:** Plantilla HTML común a todas las páginas. Incluye el header con menú responsive (drawer lateral) y el footer.
+**Propósito:** Plantilla HTML común a todas las páginas. Incluye el header con logo, menú responsive (drawer lateral), el componente `<Footer />` y el `<script>` del drawer.
 
 **Props:**
 - `title: string` — el título de la página.
 
 **Estructura:**
 
-El layout contiene **cuatro bloques principales**:
+El layout contiene **cinco bloques principales**:
 
-1. **`<header>`** con logo, menú de escritorio y botón hamburguesa.
+1. **`<header>`** con logo (imagen), menú de escritorio y botón hamburguesa.
 2. **`<div class="overlay">`** — capa oscura que cubre la pantalla cuando el drawer está abierto.
 3. **`<aside class="drawer">`** — panel lateral con los enlaces de navegación.
-4. **`<main>`** con `<slot />` y **`<footer>`**.
-5. **`<script>`** al final para controlar el drawer (abrir/cerrar).
+4. **`<main>`** con `<slot />`.
+5. **`<Footer />`** — componente del pie de página.
+6. **`<script>`** al final para controlar el drawer.
+
+**Imports necesarios:**
+
+```astro
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+```
 
 **Explicación de las tres formas de cerrar el drawer:**
 
@@ -335,7 +390,7 @@ El layout contiene **cuatro bloques principales**:
 
 ### 5.3 `src/components/Card.astro`
 
-**Propósito:** Tarjeta reutilizable para mostrar salas o contactos en un listado.
+**Propósito:** Tarjeta reutilizable para mostrar salas, noticias o eventos en un listado.
 
 **Props:**
 - `titulo: string` (obligatorio)
@@ -349,15 +404,79 @@ El layout contiene **cuatro bloques principales**:
 - El elemento es un `<a>` completo, mejor para móviles.
 - Efecto hover: la tarjeta se eleva (`transform: translateY(-4px)`) y la sombra crece.
 
-### 5.4 `src/pages/index.astro`
+### 5.4 `src/components/Footer.astro`
 
-**Propósito:** Página de inicio.
+**Propósito:** Pie de página común a todas las páginas. Se importa una sola vez en `BaseLayout.astro`.
+
+**Estructura:**
+
+1. **Marca:** título del museo + ubicación.
+2. **Tres columnas:** Contacto (dirección, teléfono, email), Enlaces (navegación rápida), Legal (accesibilidad, privacidad, mapa del sitio).
+3. **Barra inferior:** copyright con año dinámico.
+
+**Año dinámico:**
+
+```astro
+const añoActual = new Date().getFullYear();
+```
+
+Se actualiza solo cada año, sin editar el archivo.
+
+**Grid responsive automático:**
+
+```css
+.footer-columnas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+```
+
+Las 3 columnas se apilan solas en móvil, **sin necesidad de media query**.
+
+### 5.5 `src/pages/index.astro`
+
+**Propósito:** Página de inicio con secciones destacadas.
 
 **URL:** `/`
 
-**Contenido:** Bienvenida + lista de enlaces a todas las secciones principales.
+**Estructura:**
 
-### 5.5 `src/pages/sobre.astro`
+1. **Hero** — bloque grande con título, descripción y botones "Explorar salas" / "Ver eventos".
+2. **Nuestras Salas** — 2 salas destacadas (usando `.slice(0, 2)`).
+3. **Últimas Noticias** — 2 noticias más recientes.
+4. **Próximos Eventos** — 2 eventos más próximos.
+5. **Visítanos** — horario, dirección, precio.
+
+**Lógica del frontmatter:**
+
+```typescript
+const salas = (await getCollection('salas')).slice(0, 2);
+
+const noticias = (await getCollection('noticias'))
+  .sort((a, b) => new Date(b.data.fecha).getTime() - new Date(a.data.fecha).getTime())
+  .slice(0, 2);
+
+const eventos = (await getCollection('eventos'))
+  .sort((a, b) => new Date(a.data.fecha).getTime() - new Date(b.data.fecha).getTime())
+  .slice(0, 2);
+```
+
+- **Salas:** `.slice(0, 2)` → toma las 2 primeras.
+- **Noticias:** orden descendente (más nuevas primero) + slice.
+- **Eventos:** orden ascendente (más próximos primero) + slice.
+
+**Renderizado condicional:**
+
+```astro
+{noticias.length > 0 && (
+  <section>...</section>
+)}
+```
+
+Solo renderiza la sección si hay contenido.
+
+### 5.6 `src/pages/sobre.astro`
 
 **Propósito:** Información institucional del museo.
 
@@ -368,71 +487,66 @@ El layout contiene **cuatro bloques principales**:
 - Visión
 - Funciones (según la Gaceta Oficial)
 
-**Clase CSS:** `.pagina-estatica` (definida en `global.css`).
+**Clase CSS:** `.pagina-estatica`.
 
-### 5.6 `src/pages/servicios.astro`
+### 5.7 `src/pages/servicios.astro`
 
-**Propósito:** Catálogo de servicios ofrecidos por el museo.
+**Propósito:** Catálogo de servicios.
 
 **URL:** `/servicios`
 
 **Contenido:**
 - Visita guiada: precio 5 CUP por persona. Botón "Pagar con Transfermóvil" (placeholder).
-- Talleres educativos.
-- Nota sobre formas de pago (Transfermóvil + efectivo en taquilla).
-
-**Clases CSS usadas:** `.servicios-grid`, `.servicio-card`, `.precio`, `.boton-pago`, `.nota-pago`.
+- Talleres educativos (con imagen).
+- Nota sobre formas de pago.
 
 **Integración con Transfermóvil (pendiente):**
 
-El `href` del botón es actualmente `#`. Cuando el museo contrate el servicio de tienda virtual con ETECSA (Bulevar Mi Transfer), se reemplazará por la URL real de la pasarela.
+El `href` del botón es `#`. Cuando el museo contrate el Bulevar Mi Transfer, se reemplazará por la URL real.
 
-**Diferencia entre QR estático y QR dinámico:**
-
-| Tipo | Cómo funciona | Cuándo usarlo |
-|---|---|---|
-| QR estático | Imagen fija con la cuenta del museo. El usuario escribe el monto manualmente. | Taquilla presencial |
-| QR dinámico | Se genera por transacción, con el monto pre-cargado. | Tienda virtual, pagos en línea |
-
-### 5.7 `src/pages/normativa.astro`
+### 5.8 `src/pages/normativa.astro`
 
 **Propósito:** Marco legal que rige al museo.
 
 **URL:** `/normativa`
 
-**Contenido:**
-- Ley 23 de Museos Municipales.
-- Ley 162/2023 de Comunicación Social.
-- Ley 168 de Transparencia y Acceso a la Información Pública.
-- Resolución 93/2023 del MINCIN sobre pagos electrónicos.
-
-### 5.8 `src/pages/transparencia.astro`
+### 5.9 `src/pages/transparencia.astro`
 
 **Propósito:** Información pública del museo.
 
 **URL:** `/transparencia`
 
-**Contenido:**
-- Directorio institucional (director, correo, teléfono).
-- Planificación de actividades.
+### 5.10 `src/pages/accesibilidad.astro`
 
-### 5.9 `src/pages/salas/index.astro` y `[slug].astro`
+**Propósito:** Declaración de accesibilidad web.
 
-**Propósito:** Listado y detalle de las salas.
+**URL:** `/accesibilidad`
 
-**URLs:** `/salas` y `/salas/:id`
+**Contenido:** Compromiso, medidas implementadas, marco normativo (Ley 168).
 
-Patrón de colección dinámica ya documentado en la sección 4.
+### 5.11 `src/pages/privacidad.astro`
 
-### 5.10 `src/pages/contactos/index.astro` y `[slug].astro`
+**Propósito:** Política de privacidad.
 
-**Propósito:** Listado y detalle de los contactos.
+**URL:** `/privacidad`
 
-**URLs:** `/contactos` y `/contactos/:id`
+**Contenido:** Información recopilada, uso, derechos, marco legal.
 
-Mismos patrones que las salas, adaptados a la colección `contactos`.
+### 5.12 `src/pages/mapa-sitio.astro`
 
-### 5.11 `src/content/salas/*.md`
+**Propósito:** Índice completo de páginas.
+
+**URL:** `/mapa-sitio`
+
+**Contenido:** Enlaces agrupados por categoría (institucional, cultural, servicios, legal).
+
+### 5.13 Páginas dinámicas (salas, contactos, noticias, eventos)
+
+Cada sección tiene dos archivos:
+- `index.astro` → listado con Cards.
+- `[slug].astro` → detalle con `getStaticPaths()` y `render()`.
+
+### 5.14 `src/content/salas/*.md`
 
 **Ejemplo de frontmatter:**
 
@@ -440,7 +554,7 @@ Mismos patrones que las salas, adaptados a la colección `contactos`.
 ---
 titulo: "Sala de Historia"
 descripcion: "Recorre los primeros años del museo."
-imagen_principal: "/imagenes/salas/historia.jpg"
+imagen_principal: "/imagenes/salas/sala1/edificio-historico.jpg"
 ---
 ```
 
@@ -457,22 +571,24 @@ imagen_principal: "/imagenes/salas/historia.jpg"
 | `juan-perez.md`     | `Juan Pérez.md`     |
 | `fauna-acuatica.md` | `fauna_acuática.md` |
 
-### 5.12 `src/styles/global.css`
+### 5.15 `src/styles/global.css`
 
-**Propósito:** Estilos globales compartidos por todo el sitio.
+**Propósito:** Estilos globales compartidos.
 
-**Secciones del archivo:**
+**Secciones:**
 
-1. **Variables CSS** (`:root`) — colores, tipografías.
-2. **Reset básico** — `body`, `h1`, `h2`, `h3`.
-3. **Header** — logo, menú desktop, botón hamburguesa.
-4. **Overlay** — capa oscura.
-5. **Drawer** — panel lateral con cabecera, botón X y nav.
-6. **Main y Footer**.
-7. **Páginas estáticas** — `.pagina-estatica`.
-8. **Botones** — `.boton-pago` con hover y active.
-9. **Servicios** — grid, cards, precio, nota.
-10. **Media query** (`max-width: 768px`) — estilos móviles.
+1. **Variables CSS** (`:root`).
+2. **Reset universal** (`*, *::before, *::after { box-sizing: border-box; }`).
+3. **Reset básico** (`body`, `h1`, `h2`, `h3`).
+4. **Header** (logo, menú desktop, botón hamburguesa).
+5. **Overlay** (capa oscura).
+6. **Drawer** (panel lateral).
+7. **Main** (contenido principal).
+8. **Footer** (3 columnas + barra inferior).
+9. **Páginas estáticas** (`.pagina-estatica`).
+10. **Botones** (`.boton-pago` con hover y active).
+11. **Servicios** (grid, cards, precio).
+12. **Media query** (`max-width: 768px`).
 
 **Regla de uso:**
 
@@ -519,24 +635,18 @@ const variable = 'valor';
 ### 6.4 Props
 
 ```astro
-<!-- Estáticas -->
 <Card titulo="Hola" />
-
-<!-- Dinámicas -->
 <Card titulo={variable} />
-
-<!-- Con template literal -->
 <Card titulo={`${a} ${b}`} />
 ```
 
 ### 6.5 Imports relativos
 
 Desde `src/pages/salas/index.astro`:
-
 - `../../layouts/BaseLayout.astro` → sube 2 niveles hasta `src/`.
 - `../../components/Card.astro` → sube 2 niveles.
 
-**Regla:** cuenta cuántas carpetas hay entre tu archivo y `src/`. Cada carpeta es un `../`.
+**Regla:** cuenta cuántas carpetas hay entre tu archivo y `src/`.
 
 ### 6.6 Rutas dinámicas
 
@@ -556,9 +666,6 @@ export async function getStaticPaths() {
 }
 ```
 
-- `params` define los valores de los `[corchetes]` en la ruta.
-- `props` pasa datos al template.
-
 ### 6.8 Renderizado de Markdown
 
 ```typescript
@@ -566,12 +673,9 @@ import { render } from 'astro:content';
 const { Content } = await render(entrada);
 ```
 
-- `render(entrada)` convierte el `.body` (Markdown) a un componente.
-- `<Content />` lo inserta en el HTML.
-
 ### 6.9 JavaScript en el cliente
 
-Aunque Astro es "cero JavaScript por defecto", se puede añadir `<script>` en cualquier `.astro`. Astro lo empaqueta y lo envía al navegador.
+Astro permite `<script>` en cualquier `.astro`. Se empaqueta y se envía al navegador.
 
 ```astro
 <script>
@@ -583,9 +687,8 @@ Aunque Astro es "cero JavaScript por defecto", se puede añadir `<script>` en cu
 ```
 
 **Buenas prácticas:**
-
-- Usar `?.` (optional chaining) para evitar errores si el elemento no existe.
-- Minimizar el código de cliente. Solo lo imprescindible.
+- Usar `?.` (optional chaining) para evitar errores.
+- Minimizar el código de cliente.
 - No usar librerías grandes para cosas pequeñas.
 
 ---
@@ -596,10 +699,10 @@ Aunque Astro es "cero JavaScript por defecto", se puede añadir `<script>` en cu
 
 | Enfoque | Cómo se escribe | Cuándo usarlo |
 |---|---|---|
-| Mobile-first | Estilos base para móvil + `@media (min-width: 768px)` para ampliar | Recomendado |
-| Desktop-first | Estilos base para escritorio + `@media (max-width: 768px)` para reducir | Clásico, fácil de migrar |
+| Mobile-first | Estilos base para móvil + `@media (min-width: 768px)` | Recomendado |
+| Desktop-first | Estilos base para escritorio + `@media (max-width: 768px)` | Clásico, fácil de migrar |
 
-**Este proyecto usa Desktop-first** por simplicidad de migración.
+**Este proyecto usa Desktop-first.**
 
 ### 7.2 La meta tag viewport
 
@@ -607,9 +710,21 @@ Aunque Astro es "cero JavaScript por defecto", se puede añadir `<script>` en cu
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 ```
 
-**Sin esta etiqueta, los celulares simulan una pantalla de 980px y reducen todo.**
+### 7.3 `box-sizing: border-box` universal
 
-### 7.3 Media queries
+**Regla obligatoria al inicio del CSS:**
+
+```css
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+```
+
+**Por qué:** sin esto, `width: 100%` + `padding: 1rem` desborda el contenedor. Con `border-box`, el padding se incluye dentro del ancho.
+
+### 7.4 Media queries
 
 ```css
 @media (max-width: 768px) {
@@ -627,9 +742,9 @@ Aunque Astro es "cero JavaScript por defecto", se puede añadir `<script>` en cu
 | 1024px | Tablet horizontal |
 | 1200px | Escritorio |
 
-### 7.4 Patrón: Drawer lateral
+### 7.5 Patrón: Drawer lateral
 
-El menú móvil es un **drawer** que se desliza desde la derecha. Los componentes:
+El menú móvil es un **drawer** que se desliza desde la derecha.
 
 | Elemento | Función |
 |---|---|
@@ -638,39 +753,37 @@ El menú móvil es un **drawer** que se desliza desde la derecha. Los componente
 | `.drawer` | Panel lateral con enlaces |
 | `.drawer-cerrar` | Botón X dentro del drawer |
 
-**Cómo funciona la animación:**
+**Animación:**
 
 ```css
 .drawer {
-  right: -260px;                    /* Cerrado: fuera de pantalla */
+  right: -260px;
   transition: right 0.3s ease;
 }
 .drawer.activo {
-  right: 0;                          /* Abierto: en pantalla */
+  right: 0;
 }
 ```
 
-JavaScript añade/quita la clase `.activo` al hacer clic.
+**Regla:** `right` debe ser **ligeramente mayor** que `width`. Si `width = 240px`, `right = -260px`.
 
-**Regla importante:** `right` debe ser **ligeramente mayor** que `width`. Si `width = 240px`, `right = -260px`. Así el drawer queda completamente fuera al cerrar.
-
-### 7.5 Bloqueo de scroll
+### 7.6 Bloqueo de scroll
 
 ```javascript
 document.body.style.overflow = 'hidden';
 ```
 
-Cuando el drawer está abierto, esta línea impide que el usuario haga scroll de la página de fondo. Al cerrar, se restaura con `''`.
+Cuando el drawer está abierto, esta línea impide el scroll del fondo.
 
-### 7.6 Accesibilidad
+### 7.7 Accesibilidad
 
 - **`aria-label`** en botones sin texto visible.
 - **`aria-hidden`** en el drawer cuando está cerrado.
-- **Contraste adecuado:** texto blanco sobre fondo tierra cumple AA.
-- **Navegación por teclado:** los `<button>` reales son accesibles por defecto.
+- **Contraste adecuado:** texto blanco sobre fondo tierra.
+- **Navegación por teclado:** los `<button>` reales son accesibles.
 - **Tamaño de toque:** botones de al menos 44x44px en móvil.
 
-### 7.7 Botones con hover
+### 7.8 Botones con hover
 
 ```css
 .boton-pago {
@@ -678,14 +791,26 @@ Cuando el drawer está abierto, esta línea impide que el usuario haga scroll de
   transition: background-color 0.2s ease;
 }
 .boton-pago:hover {
-  background-color: #6b4529;   /* 20% más oscuro */
+  background-color: #6b4529;
 }
 .boton-pago:active {
-  background-color: #4a2f1c;   /* 40% más oscuro */
+  background-color: #4a2f1c;
 }
 ```
 
-**Regla:** elegir 1-2 efectos por botón. No combinar todos.
+**Regla:** elegir 1-2 efectos por botón.
+
+### 7.9 Grid responsive sin media query
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+}
+```
+
+`auto-fit` + `minmax` = el grid se adapta solo a cualquier ancho, sin `@media`.
 
 ---
 
@@ -702,7 +827,7 @@ git config --global user.email "tu@email.com"
 
 | Comando | Función |
 |---|---|
-| `git status` | Ver estado del working directory |
+| `git status` | Ver estado |
 | `git add .` | Preparar todos los cambios |
 | `git commit -m "mensaje"` | Guardar un punto de control |
 | `git log --oneline` | Ver historial resumido |
@@ -744,19 +869,18 @@ git push origin --delete nueva-funcionalidad
 | Crear rama nueva | `git checkout -b nombre` | (ese `-b` sí es correcto) |
 
 **Regla mental:**
-- **`branch`** → gestión de ramas (crear, listar, borrar).
+- **`branch`** → gestión de ramas.
 - **`checkout`** → cambiar de dónde estás parado.
 
 ### 8.6 Autenticación con GitHub
 
-GitHub ya no acepta contraseñas. Se necesita un **Personal Access Token (PAT)**.
+GitHub no acepta contraseñas. Se necesita un **Personal Access Token (PAT)**.
 
 **Crear el token:**
-
 1. GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic).
 2. Generate new token (classic).
 3. Nombre: `museo-web-push`, Expiración: 90 días, Scope: `repo`.
-4. Copiar el token (`ghp_...`) y guardarlo.
+4. Copiar el token (`ghp_...`).
 
 **Usarlo en el push:**
 - Username: tu usuario de GitHub.
@@ -791,7 +915,7 @@ export default defineConfig({
 
 ### 9.2 Activar GitHub Pages
 
-1. En el repositorio de GitHub: Settings → Pages.
+1. Repositorio de GitHub: Settings → Pages.
 2. Source: **GitHub Actions**.
 3. GitHub detecta Astro y configura el workflow automáticamente.
 
@@ -816,10 +940,13 @@ export default defineConfig({
 | `ENOTFOUND` al instalar        | Registro npm bloqueado                 | Configurar mirror (ver 2.5)       |
 | `ETIMEDOUT` en npm             | Conexión inestable                     | Aumentar timeouts                 |
 | Franja visible al cerrar drawer | `right` menor que `width`             | Ajustar: `right = width + 20px`   |
+| Botón desborda el contenedor   | Falta `box-sizing: border-box`         | Añadirlo universalmente           |
+| `Footer is not defined`        | Import mal escrito o con llaves        | `import Footer from '...'` sin llaves |
+| Header demasiado ancho         | Demasiados enlaces en el menú          | Máximo 9 enlaces en el menú principal |
 
 ### 10.2 Cambios de API en Astro
 
-Astro 4 → Astro 5+ cambiaron la API de Content Collections. Si un tutorial antiguo no funciona:
+Astro 4 → Astro 5+ cambiaron la API de Content Collections:
 
 - `type: 'content'` → `loader: glob(...)`
 - `entry.slug` → `entry.id`
@@ -834,18 +961,9 @@ npm list astro
 cat package.json | grep astro
 ```
 
-### 10.4 El error "cannot find module" tras un rebase
+### 10.4 El truco de diagnosticar con la consola
 
-```bash
-git status
-ls src/components/
-```
-
-Suele ser porque la rama no tenía ese archivo.
-
-### 10.5 El truco de diagnosticar con la consola
-
-Abre DevTools (`F12`) → pestaña **Console**. Cualquier error de JavaScript aparece aquí. Es lo primero que revisar cuando algo deja de funcionar.
+Abre DevTools (`F12`) → pestaña **Console**. Cualquier error de JavaScript aparece aquí.
 
 ---
 
@@ -867,15 +985,12 @@ npm config set fetch-timeout 600000
 
 ### 11.3 VPN para Git
 
-Si el push falla por inestabilidad:
-
+Si el push falla:
 1. Activar Proton VPN.
 2. Reintentar `git push`.
 3. Borrar proxy de Git: `git config --global --unset http.proxy`.
 
 ### 11.4 Optimización de imágenes
-
-Crítico en Cuba por el ancho de banda limitado:
 
 - Convertir a **WebP**.
 - Redimensionar a máximo 1600px de ancho.
@@ -892,8 +1007,6 @@ GitLens funciona sin VPN para funciones locales. Para iniciar sesión con GitKra
 
 ### 12.1 Marco normativo cubano
 
-Un museo municipal es una **institución estatal**. El sitio web debe cumplir con la normativa vigente:
-
 | Norma | Contenido |
 |---|---|
 | Ley 162/2023 | De Comunicación Social. Registro obligatorio de sitios web de entidades estatales. |
@@ -903,50 +1016,56 @@ Un museo municipal es una **institución estatal**. El sitio web debe cumplir co
 
 ### 12.2 Registro del sitio web
 
-Todo sitio web de entidad estatal debe registrarse en el **Registro Nacional de Sitios Web** del Instituto de Información y Comunicación Social (ICS). El trámite lo gestiona el museo, no el desarrollador, pero el desarrollador debe conocerlo.
+Todo sitio web de entidad estatal debe registrarse en el **Registro Nacional de Sitios Web** del Instituto de Información y Comunicación Social (ICS). El trámite lo gestiona el museo.
 
 ### 12.3 Pasarela de pago (Transfermóvil)
 
 **Requisitos para el museo:**
-
 - Estar inscrito en el Registro Central Comercial (RCC).
 - Tener línea móvil corporativa.
 - Correo con dominio `.cu`.
 - Certificado legal que acredite su constitución.
 
-**Servicio:** Bulevar Mi Transfer de ETECSA ofrece el módulo de "Tienda Virtual" que permite integración con sitios web.
+**Servicio:** Bulevar Mi Transfer de ETECSA ofrece el módulo de "Tienda Virtual".
 
 **Lo que el museo recibe al contratar:**
-
 - URL de pago para poner en el `href` del botón.
 - QR dinámico generado por transacción.
 - Panel de administración de pagos.
 - Notificaciones de pago.
 
 **Lo que NO se debe hacer:**
-
 - Manejar datos de tarjetas en el frontend.
 - Guardar credenciales bancarias.
 - Procesar pagos sin la pasarela oficial.
 
-### 12.4 Secciones mínimas obligatorias
+**Diferencia entre QR estático y dinámico:**
 
-Basado en la normativa:
+| Tipo | Cómo funciona | Cuándo usarlo |
+|---|---|---|
+| QR estático | Imagen fija. El usuario escribe el monto. | Taquilla presencial |
+| QR dinámico | Se genera por transacción, con monto pre-cargado. | Tienda virtual |
+
+### 12.4 Estado de las secciones obligatorias
 
 | Sección | Estado |
 |---|---|
 | Inicio | ✅ Implementado |
-| Sobre el Museo (misión, visión, funciones) | ✅ Implementado |
+| Sobre el Museo | ✅ Implementado |
 | Salas | ✅ Implementado |
-| Contactos (directorio institucional) | ✅ Implementado |
-| Servicios (catálogo) | ✅ Implementado |
+| Contactos | ✅ Implementado |
+| Servicios | ✅ Implementado |
 | Marco Normativo | ✅ Implementado |
 | Transparencia | ✅ Implementado |
-| Eventos / Actividades | ⏳ Pendiente (Fase 2) |
-| Noticias | ⏳ Pendiente (Fase 2) |
-| Accesibilidad | ⏳ Pendiente (Fase 3) |
-| Privacidad | ⏳ Pendiente (Fase 3) |
-| Mapa del sitio | ⏳ Pendiente (Fase 3) |
+| Eventos / Actividades | ✅ Implementado |
+| Noticias | ✅ Implementado |
+| Accesibilidad | ✅ Implementado |
+| Privacidad | ✅ Implementado |
+| Mapa del sitio | ✅ Implementado |
+| Integración Transfermóvil | ⏳ Pendiente (contratar Bulevar) |
+| Meta tags y SEO | ⏳ Pendiente (Fase 3.4) |
+| Página 404 | ⏳ Pendiente (Fase 3.6) |
+| Favicon | ⏳ Pendiente (Fase 3.7) |
 
 ---
 
@@ -970,17 +1089,24 @@ git pull              # Traer del remoto
 
 ### B. Estructura de URLs
 
-| Archivo                          | URL              |
-|----------------------------------|------------------|
-| `pages/index.astro`              | `/`              |
-| `pages/sobre.astro`              | `/sobre`         |
-| `pages/servicios.astro`          | `/servicios`     |
-| `pages/normativa.astro`          | `/normativa`     |
-| `pages/transparencia.astro`      | `/transparencia` |
-| `pages/salas/index.astro`        | `/salas`         |
-| `pages/salas/[slug].astro`       | `/salas/:id`     |
-| `pages/contactos/index.astro`    | `/contactos`     |
-| `pages/contactos/[slug].astro`   | `/contactos/:id` |
+| Archivo                          | URL                |
+|----------------------------------|--------------------|
+| `pages/index.astro`              | `/`                |
+| `pages/sobre.astro`              | `/sobre`           |
+| `pages/servicios.astro`          | `/servicios`       |
+| `pages/normativa.astro`          | `/normativa`       |
+| `pages/transparencia.astro`      | `/transparencia`   |
+| `pages/accesibilidad.astro`      | `/accesibilidad`   |
+| `pages/privacidad.astro`         | `/privacidad`      |
+| `pages/mapa-sitio.astro`         | `/mapa-sitio`      |
+| `pages/salas/index.astro`        | `/salas`           |
+| `pages/salas/[slug].astro`       | `/salas/:id`       |
+| `pages/contactos/index.astro`    | `/contactos`       |
+| `pages/contactos/[slug].astro`   | `/contactos/:id`   |
+| `pages/noticias/index.astro`     | `/noticias`        |
+| `pages/noticias/[slug].astro`    | `/noticias/:id`    |
+| `pages/eventos/index.astro`      | `/eventos`         |
+| `pages/eventos/[slug].astro`     | `/eventos/:id`     |
 
 ### C. Glosario
 
@@ -1005,6 +1131,7 @@ git pull              # Traer del remoto
 | **Overlay**         | Capa oscura que cubre la pantalla                  |
 | **Media query**     | Regla CSS condicional según tamaño de pantalla     |
 | **Mobile-first**    | Enfoque de diseño que prioriza móvil               |
+| **box-sizing**      | Modelo de cálculo del ancho (border-box incluye padding) |
 | **Transfermóvil**   | Plataforma cubana de pagos electrónicos            |
 | **Bulevar Mi Transfer** | Servicio de ETECSA para tiendas virtuales      |
 | **PAT**             | Personal Access Token (autenticación GitHub)       |
@@ -1026,23 +1153,31 @@ cd ~/Proyectos/museo-web
 pandoc DOCUMENTACION.md -o DOCUMENTACION.docx
 ```
 
-Abrir con LibreOffice Writer.
+### F. Estado de las fases del proyecto
 
-### F. Fases del proyecto
-
-**Fase 1 (completada):**
+**Fase 1 — COMPLETADA:**
 - Páginas estáticas institucionales: sobre, servicios, normativa, transparencia.
 - Menú responsive con drawer lateral.
 - Optimización para móvil.
 
-**Fase 2 (pendiente):**
+**Fase 2 — COMPLETADA:**
 - Noticias (colección dinámica).
-- Eventos (colección o página con lista).
+- Eventos (colección dinámica).
+- Home renovada con hero, secciones destacadas y bloque "Visítanos".
 
-**Fase 3 (pendiente):**
-- Accesibilidad, privacidad, mapa del sitio.
+**Fase 3 — EN PROGRESO:**
+- ✅ 3.1 Home renovada.
+- ✅ 3.2 Footer completo con 3 columnas.
+- ✅ 3.3 Páginas legales: accesibilidad, privacidad, mapa del sitio.
+- ⏳ 3.4 Meta tags y SEO (description, Open Graph).
+- ⏳ 3.5 Accesibilidad técnica (skip link, focus visible).
+- ⏳ 3.6 Página 404 personalizada.
+- ⏳ 3.7 Favicon y branding.
+
+**Fase 4 — PENDIENTE (esperando al museo):**
 - Integración con pasarela de Transfermóvil.
-- Sistema de acceso a salas virtuales (paywall).
+- Sistema de paywall (acceso a salas virtuales).
+- Optimización de imágenes (WebP, resize).
 
 ---
 
