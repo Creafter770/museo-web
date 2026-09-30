@@ -13,9 +13,9 @@ export async function getStaticPaths() {
 const { sala } = Astro.props;
 const { Content } = await render(sala);
 ---
-<BaseLayout title={sala.data.titulo}>
+<BaseLayout title={sala.data.titulo} description={sala.data.descripcion} image={sala.data.imagen_principal}>
   <article>
-    <p><a href="/salas">← Volver a salas</a></p>
+    <p><a href="/museo-web/salas">← Volver a salas</a></p>
     <h1>{sala.data.titulo}</h1>
     <img src={sala.data.imagen_principal} alt={sala.data.titulo} class="portada" />
     <p>{sala.data.descripcion}</p>

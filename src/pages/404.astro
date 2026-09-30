@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Página no encontrada" description="La página que buscas no existe en el sitio del Museo Municipal 19 de Diciembre.">
+  <article class="pagina-estatica error-404">
+    <h1>404</h1>
+    <h2>Página no encontrada</h2>
+    <p>Lo sentimos, la página que buscas no existe o ha sido movida.</p>
+    <p>Puedes volver al inicio o explorar alguna de las secciones principales:</p>
+
+    <div class="error-enlaces">
+      <a href="/museo-web/">Inicio</a>
+      <a href="/museo-web/salas">Salas</a>
+      <a href="/museo-web/noticias">Noticias</a>
+      <a href="/museo-web/eventos">Eventos</a>
+      <a href="/museo-web/servicios">Servicios</a>
+      <a href="/museo-web/contactos">Contactos</a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .error-404 {
+    text-align: center;
+    padding: 2rem 0;
+  }
+  .error-404 h1 {
+    font-size: 5rem;
+    margin: 0;
+    color: var(--color-acento);
+    line-height: 1;
+  }
+  .error-404 h2 {
+    font-size: 1.5rem;
+    margin: 0.5rem 0 1.5rem;
+    color: var(--color-texto);
+  }
+  .error-404 p {
+    max-width: 500px;
+    margin: 0 auto 1rem;
+  }
+  .error-enlaces {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .error-enlaces a {
+    color: var(--color-acento);
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-acento);
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .error-enlaces a:hover {
+    background-color: var(--color-acento);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .error-404 h1 {
+      font-size: 3.5rem;
+    }
+    .error-404 h2 {
+      font-size: 1.25rem;
+    }
+    .error-enlaces {
+      flex-direction: column;
+    }
+    .error-enlaces a {
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+  }
+</style>

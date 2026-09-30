@@ -8,7 +8,7 @@ const eventos = (await getCollection("eventos")).sort(
 );
 ---
 
-<BaseLayout title="Eventos">
+<BaseLayout title="Eventos" description="Eventos, exposiciones y actividades culturales del museo.">
   <h1>Eventos y Actividades</h1>
   <p>Consulta nuestra programación cultural.</p>
   <div class="grid">
@@ -18,7 +18,7 @@ const eventos = (await getCollection("eventos")).sort(
           titulo={`${evento.data.fecha} — ${evento.data.titulo}`}
           descripcion={evento.data.descripcion}
           imagen={evento.data.imagen}
-          href={`/eventos/${evento.id}`}
+          href={`/museo-web/eventos/${evento.id}`}
         />
       ))
     }

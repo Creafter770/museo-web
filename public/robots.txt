@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://creafter770.github.io/museo-web/sitemap-index.xml

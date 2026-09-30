@@ -1,7 +1,7 @@
 ---
 titulo: "Sala de Historia"
 descripcion: "Recorre los primeros años del museo."
-imagen_principal: "/imagenes/salas/sala2/sala-historia.png"
+imagen_principal: "/museo-web/imagenes/salas/sala2/sala-historia.png"
 ponentes: ["juan-perez"]
 ---
 

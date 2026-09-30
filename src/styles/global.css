@@ -385,3 +385,29 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* Skip link - accesibilidad por teclado */
+.skip-link {
+  position: fixed;
+  top: -200px;
+  left: 0;
+  right: 0;
+  box-sizing: content-box;
+  min-height: 60px;
+  background: var(--color-acento);
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 9999;
+  transition: top 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.skip-link:focus {
+  top: 0;
+}
