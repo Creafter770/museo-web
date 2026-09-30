@@ -21,7 +21,7 @@ Sitio web con las salas, secciones, contactos e información general del museo. 
 
 ```bash
 # Clonar el repositorio
-git clone https://github.com/Creater770/museo-web.git
+git clone https://github.com/creafter770/museo-web.git
 cd museo-web
 
 # Instalar dependencias

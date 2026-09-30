@@ -1,7 +1,7 @@
 # Documentación del Proyecto Museo Web
 
-**Autor:** Creater770
-**Repositorio:** https://github.com/Creater770/museo-web
+**Autor:** Creafter770
+**Repositorio:** https://github.com/Creafter770/museo-web
 **Descripción:** Página estática para el Museo Municipal "19 de Diciembre", Caimanera.
 **Stack:** Astro 7.3.5 + Node.js 22 + TypeScript + Git + GitHub Pages
 **Fecha de inicio:** Septiembre 25/2026
@@ -101,7 +101,7 @@ npm -v    # 10.x.x
 
 ```bash
 cd ~/Proyectos
-npm create astro@latest
+npm Creafter astro@latest
 # - Nombre: museo-web
 # - Plantilla: Empty
 # - Instalar dependencias: Yes
@@ -890,7 +890,7 @@ GitHub no acepta contraseñas. Se necesita un **Personal Access Token (PAT)**.
 
 ```bash
 git branch -M main
-git remote add origin https://github.com/Creater770/museo-web.git
+git remote add origin https://github.com/Creafter770/museo-web.git
 git fetch origin
 git rebase origin/main
 git push -u origin main
@@ -908,7 +908,7 @@ En `astro.config.mjs`:
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://Creater770.github.io',
+  site: 'https://Creafter770.github.io',
   base: '/museo-web',
 });
 ```
@@ -921,7 +921,7 @@ export default defineConfig({
 
 ### 9.3 URL final
 
-`https://creater770.github.io/museo-web/`
+`https://Creafter770.github.io/museo-web/`
 
 ---
 

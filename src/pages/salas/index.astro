@@ -5,7 +5,7 @@ import Card from '../../components/Card.astro';
 
 const salas = await getCollection('salas');
 ---
-<BaseLayout title="Salas">
+<BaseLayout title="Salas" description="Recorre las salas del museo: historia local y naturaleza de Caimanera.">
   <h1>Nuestras Salas</h1>
   <div class="grid">
     {salas.map((sala) => (
@@ -13,7 +13,7 @@ const salas = await getCollection('salas');
         titulo={sala.data.titulo}
         descripcion={sala.data.descripcion}
         imagen={sala.data.imagen_principal}
-        href={`/salas/${sala.id}`}
+        href={`/museo-web/salas/${sala.id}`}
       />
     ))}
   </div>

@@ -8,7 +8,7 @@ const noticias = (await getCollection("noticias")).sort(
 );
 ---
 
-<BaseLayout title="Noticias">
+<BaseLayout title="Noticias" description="Últimas noticias y novedades del Museo Municipal 19 de Diciembre.">
   <h1>Noticias</h1>
   <p>Mantente al día con las novedades del museo.</p>
   <div class="grid">
@@ -18,7 +18,7 @@ const noticias = (await getCollection("noticias")).sort(
           titulo={noticia.data.titulo}
           descripcion={noticia.data.resumen}
           imagen={noticia.data.imagen}
-          href={`/noticias/${noticia.id}`}
+          href={`/museo-web/noticias/${noticia.id}`}
         />
       ))
     }

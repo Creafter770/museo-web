@@ -5,7 +5,7 @@ import Card from '../../components/Card.astro';
 
 const contactos = await getCollection('contactos');
 ---
-<BaseLayout title="Contactos">
+<BaseLayout title="Contactos" description="Directorio de contactos del Museo Municipal 19 de Diciembre.">
   <h1>Contactos</h1>
   <div class="grid">
     {contactos.map((contacto) => (
@@ -13,7 +13,7 @@ const contactos = await getCollection('contactos');
         titulo={contacto.data.nombre}
         descripcion={contacto.data.bio}
         imagen={contacto.data.foto}
-        href={`/contactos/${contacto.id}`}
+        href={`/museo-web/contactos/${contacto.id}`}
       />
     ))}
   </div>

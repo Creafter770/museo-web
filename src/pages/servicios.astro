@@ -2,11 +2,9 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Servicios">
+<BaseLayout title="Servicios" description="Visitas guiadas, talleres educativos y otros servicios del museo.">
   <h1>Servicios del Museo</h1>
-  <p>
-    El museo ofrece los siguientes servicios a la comunidad y a los visitantes:
-  </p>
+  <p>El museo ofrece los siguientes servicios a la comunidad y a los visitantes:</p>
 
   <div class="servicios-grid">
     <div class="servicio-card">
@@ -18,23 +16,17 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
     <div class="servicio-card">
       <img
-        src="/imagenes/servicios/taller-educativo.jpg"
+        src="/museo-web/imagenes/servicios/taller-educativo.jpg"
         alt="Taller educativo con estudiantes"
         class="servicio-imagen"
       />
       <h3>Talleres Educativos</h3>
-      <p>
-        Actividades para niños y jóvenes orientadas al conocimiento del
-        patrimonio local.
-      </p>
+      <p>Actividades para niños y jóvenes orientadas al conocimiento del patrimonio local.</p>
       <p class="precio">Consultar disponibilidad</p>
     </div>
+  </div>
 
-    <p class="nota-pago">
-      <small
-        >El pago en línea se realiza a través de la plataforma nacional
-        Transfermóvil. También se acepta efectivo en taquilla.</small
-      >
-    </p>
-  </div></BaseLayout
->
+  <p class="nota-pago">
+    <small>El pago en línea se realiza a través de la plataforma nacional Transfermóvil. También se acepta efectivo en taquilla.</small>
+  </p>
+</BaseLayout>

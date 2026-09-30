@@ -4,8 +4,19 @@ import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
 }
-const { title } = Astro.props;
+
+const {
+  title,
+  description = 'Museo Municipal "19 de Diciembre" de Caimanera. Salas, eventos, noticias y servicios del patrimonio histórico y natural.',
+  image = "/imagenes/logo.png",
+} = Astro.props;
+
+const siteURL = 'https://creafter770.github.io';
+const urlCompleta = `${siteURL}${Astro.url.pathname}`;
+const imagenCompleta = `${siteURL}${image}`;
 ---
 
 <!doctype html>
@@ -13,26 +24,52 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | Museo Local</title>
+
+    <title>{title} | Museo Municipal 19 de Diciembre</title>
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={urlCompleta} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.ico`} sizes="any" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}/favicon.svg`} type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} | Museo Municipal 19 de Diciembre`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imagenCompleta} />
+    <meta property="og:url" content={urlCompleta} />
+    <meta property="og:site_name" content="Museo Municipal 19 de Diciembre" />
+    <meta property="og:locale" content="es_CU" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={`${title} | Museo Municipal 19 de Diciembre`} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imagenCompleta} />
+
+    <meta name="theme-color" content="#8b5a3c" />
   </head>
   <body>
+    <a href="#contenido-principal" class="skip-link">Saltar al contenido principal</a>
+
     <header>
       <div class="header-contenido">
-        <a href="/" class="logo">
-          <img src="/imagenes/logo.png" alt="Museo Municipal 19 de Diciembre" />
+        <a href="/museo-web/" class="logo">
+          <img
+            src={`${import.meta.env.BASE_URL}/imagenes/logo.png`}
+            alt="Museo Municipal 19 de Diciembre"
+          />
           <span class="logo-texto">Museo local</span>
         </a>
 
         <nav class="menu-desktop">
-          <a href="/">Inicio</a>
-          <a href="/sobre">Sobre</a>
-          <a href="/salas">Salas</a>
-          <a href="/noticias">Noticias</a>
-          <a href="/eventos">Eventos</a>
-          <a href="/servicios">Servicios</a>
-          <a href="/contactos">Contactos</a>
-          <a href="/normativa">Normativa</a>
-          <a href="/transparencia">Transparencia</a>
+          <a href="/museo-web/">Inicio</a>
+          <a href="/museo-web/sobre">Sobre</a>
+          <a href="/museo-web/salas">Salas</a>
+          <a href="/museo-web/noticias">Noticias</a>
+          <a href="/museo-web/eventos">Eventos</a>
+          <a href="/museo-web/servicios">Servicios</a>
+          <a href="/museo-web/contactos">Contactos</a>
+          <a href="/museo-web/normativa">Normativa</a>
+          <a href="/museo-web/transparencia">Transparencia</a>
         </nav>
 
         <button class="menu-boton" id="menu-abrir" aria-label="Abrir menú">
@@ -48,24 +85,22 @@ const { title } = Astro.props;
     <aside class="drawer" id="drawer" aria-hidden="true">
       <div class="drawer-header">
         <span class="drawer-titulo">Menú</span>
-        <button class="drawer-cerrar" id="menu-cerrar" aria-label="Cerrar menú"
-          >×</button
-        >
+        <button class="drawer-cerrar" id="menu-cerrar" aria-label="Cerrar menú">×</button>
       </div>
       <nav class="drawer-nav">
-        <a href="/">Inicio</a>
-        <a href="/sobre">Sobre</a>
-        <a href="/salas">Salas</a>
-        <a href="/noticias">Noticias</a>
-        <a href="/eventos">Eventos</a>
-        <a href="/servicios">Servicios</a>
-        <a href="/contactos">Contactos</a>
-        <a href="/normativa">Normativa</a>
-        <a href="/transparencia">Transparencia</a>
+        <a href="/museo-web/">Inicio</a>
+        <a href="/museo-web/sobre">Sobre</a>
+        <a href="/museo-web/salas">Salas</a>
+        <a href="/museo-web/noticias">Noticias</a>
+        <a href="/museo-web/eventos">Eventos</a>
+        <a href="/museo-web/servicios">Servicios</a>
+        <a href="/museo-web/contactos">Contactos</a>
+        <a href="/museo-web/normativa">Normativa</a>
+        <a href="/museo-web/transparencia">Transparencia</a>
       </nav>
     </aside>
 
-    <main>
+    <main id="contenido-principal">
       <slot />
     </main>
 
