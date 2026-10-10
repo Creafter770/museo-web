@@ -1,9 +1,8 @@
 ---
 titulo: "Exposición trimestral: Precursores de la Historia y de la Cultura en Caimanera"
-fecha: "2026-10-10/2026-12-10"
 descripcion: "Se expondrá objetos pertenecientes a personalidades de la Cultura en Caimanera, dedicadas a la Jornada de la Cultura en nuestra localidad, promoviendo nuestras colecciones."
-
-lugar: "Sala expositoria"
+imagen_principal: "/museo-web/imagenes/salas/sala2/exposicion-transitoria.webp"
+ponentes: ["Sala expositoria"]
 ---
 
 Del 10 de octubre al 10 de Diciembre, objetos pertenecientes a personalidades de la Cultura en Caimanera, dedicada a la Jornada de la Cultura en nuestra localidad.

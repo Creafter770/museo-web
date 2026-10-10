@@ -127,7 +127,7 @@ Verificar: `npm config get registry`
 museo-web/
 ├── public/                      # Archivos estáticos
 │   └── imagenes/
-│       ├── logo.png
+│       ├── logo.webp
 │       ├── salas/
 │       ├── contactos/
 │       ├── noticias/
@@ -554,7 +554,7 @@ Cada sección tiene dos archivos:
 ---
 titulo: "Sala de Historia"
 descripcion: "Recorre los primeros años del museo."
-imagen_principal: "/imagenes/salas/sala1/edificio-historico.jpg"
+imagen_principal: "/imagenes/salas/sala1/edificio-historico.webp"
 ---
 ```
 
