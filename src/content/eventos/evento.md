@@ -1,7 +1,7 @@
 ---
-titulo: "Exposición trimestral: Precursores de la Historia y de la Cultura en Caimanera"
+titulo: "Pioneros Investigadores"
 fecha: "lunes 9:00am"
-descripcion: "Se expondrá objetos pertenecientes a personalidades de la Cultura en Caimanera, dedicadas a la Jornada de la Cultura en nuestra localidad, promoviendo nuestras colecciones."
+descripcion: "Eventos dedicado a la investigacion de la localidad."
 imagen_principal: "/museo-web/imagenes/salas/sala2/exposicion-transitoria"
 ---
 

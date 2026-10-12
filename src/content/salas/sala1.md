@@ -1,5 +1,5 @@
 ---
-titulo: "La Naturaleza y el Hombre"
+titulo: "El Hombre y su Entorno"
 descripcion: "Explora la gran variedad de especies locales de la flora y la fauna"
 imagen_principal: "/museo-web/imagenes/salas/sala1/sala-naturaleza.webp"
 ponentes: ["juan-perez"]
@@ -7,11 +7,13 @@ ponentes: ["juan-perez"]
 
 ## Introducción
 
-Aquí va el texto completo de la sala. Puedes usar **Markdown** para dar formato.
+Expone el principal recurso natural, la Bahía de doble Bolsa de Guantánamo, 
+su flora y fauna, además de las importantes fuentes económicas que de ella derivan, 
+la pesca, la salina y el puerto.
 
 ## Objetos destacados
 
-- Objeto 1
+- [Manati](#objeto-12-fotografía-de-manatí)
 - Objeto 2
 
 ## Objeto 1: Corales originarios de nuestra Bahía
@@ -35,7 +37,7 @@ nuestras playas y en el fondo marino de la Bahia de Guantánamo.
 
 Diversas especies de peses conservados que habitan en nuestra Bahia de Guantánamo.
 
-## Objeto 4: Espcies endémicas de Cuba
+## Objeto 4: Especies endémicas de Cuba
 
 ![Fauna cubana](/museo-web/imagenes/salas/sala1/fauna-cubana.webp)
 
