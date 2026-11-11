@@ -1015,9 +1015,23 @@ El sitio no ofrece pagos en línea. La propuesta de integrar Transfermóvil fue 
 | Accesibilidad | ✅ Implementado |
 | Privacidad | ✅ Implementado |
 | Mapa del sitio | ✅ Implementado |
-| Meta tags y SEO | ⏳ Pendiente (Fase 3.4) |
-| Página 404 | ⏳ Pendiente (Fase 3.6) |
-| Favicon | ⏳ Pendiente (Fase 3.7) |
+| Meta tags y SEO básico | ✅ Implementado (pendiente corregir la URL de imagen social predeterminada) |
+| Página 404 | ✅ Implementado |
+| Favicon | ✅ Implementado |
+
+---
+
+### 12.5 Estado de revisión técnica (11 de noviembre de 2026)
+
+- `npm audit`: sin vulnerabilidades reportadas después de actualizar las dependencias transitivas en `package-lock.json`.
+- No se identificaron vulnerabilidades explotables en el código de la aplicación durante la revisión estática.
+- La compilación no pudo validarse después de la actualización: el binding nativo de Rolldown instalado localmente termina con `Bus error`. Se requiere una instalación limpia de dependencias y volver a ejecutar `npm run build` antes de confirmar el estado del build.
+- La foto de la directora apunta a `public/imagenes/contactos/ejemplo.webp`, archivo que no existe. Pendiente recibir la imagen correcta.
+- Las fechas de los eventos usan texto como `lunes 9:00am`, que no es interpretable como fecha por JavaScript; además, el evento “Concurso: Monumentos de mi barrio” usa el campo `imagen_principal`, mientras las plantillas esperan `imagen`, y su ruta de imagen no existe. Pendiente confirmar fechas e imágenes con el museo.
+- La imagen social predeterminada se construye sin el prefijo `/museo-web`; requiere corregirse para que apunte al archivo publicado bajo GitHub Pages.
+- El menú móvil conserva `aria-hidden="true"` cuando se abre; queda pendiente sincronizar ese atributo y el estado accesible del botón.
+
+Los pendientes que dependen de fechas, fotografías o confirmaciones institucionales se dejan sin modificar hasta contar con esos datos.
 
 ---
 
@@ -1121,10 +1135,10 @@ pandoc DOCUMENTACION.md -o DOCUMENTACION.docx
 - ✅ 3.1 Home renovada.
 - ✅ 3.2 Footer completo con 3 columnas.
 - ✅ 3.3 Páginas legales: accesibilidad, privacidad, mapa del sitio.
-- ⏳ 3.4 Meta tags y SEO (description, Open Graph).
+- ✅ 3.4 Metadatos básicos y Open Graph (pendiente corregir la URL de imagen social predeterminada).
 - ⏳ 3.5 Accesibilidad técnica (skip link, focus visible).
-- ⏳ 3.6 Página 404 personalizada.
-- ⏳ 3.7 Favicon y branding.
+- ✅ 3.6 Página 404 personalizada.
+- ✅ 3.7 Favicon.
 
 **Fase 4 — PENDIENTE (esperando al museo):**
 - Sistema de paywall (acceso a salas virtuales).
