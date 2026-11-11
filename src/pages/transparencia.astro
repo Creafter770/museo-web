@@ -10,6 +10,68 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p><strong>Teléfono:</strong> [número]</p>
 
     <h2>Planificación de Actividades</h2>
-    <p>Consulta el calendario de actividades del año en curso.</p>
+    <h3>Diciembre de 2026</h3>
+    <div class="actividades-lista">
+      <article class="actividad">
+        <h4>Espacio Fijo Patrimonio a la Vista: “Un Poblado vestido de gloria”</h4>
+        <p><time datetime="2026-12-04T09:00">4 de diciembre · 9:00 a. m.</time></p>
+        <p>Exposición de fotografías sobre la toma de Caimanera, en homenaje al 68.º aniversario de la liberación del poblado, ocurrida el 19 de diciembre de 1958.</p>
+      </article>
+
+      <article class="actividad">
+        <h4>Círculo de Interés de Museología e Historia Local: conversatorio “La Base Naval y su Historia”</h4>
+        <p><time datetime="2026-12-09T15:00">9 de diciembre · 3:00 p. m.</time></p>
+        <p>Conversatorio con los niños y niñas del círculo de interés sobre las consecuencias de la implantación de la Base Naval en el poblado y el país.</p>
+      </article>
+
+      <article class="actividad">
+        <h4>Espacio Fijo Cuenta Conmigo: conversatorio sobre la liberación de Caimanera</h4>
+        <p><time datetime="2026-12-10T15:30">10 de diciembre · 3:30 p. m.</time></p>
+        <p>Conversatorio con jóvenes sobre la liberación de Caimanera, en vísperas de su 68.º aniversario y su significación histórica.</p>
+      </article>
+
+      <article class="actividad">
+        <h4>Espacio Fijo Aprender a Vivir: “Asesinato de Lino Grenot”</h4>
+        <p><time datetime="2026-12-11T09:00">11 de diciembre · 9:00 a. m.</time></p>
+        <p>Charla con personas sancionadas sobre el asesinato de Lino Grenot, conocido como Chicle, obrero cubano asesinado por marines yanquis.</p>
+      </article>
+
+      <article class="actividad">
+        <h4>Exposición itinerante “La sal de la vida”</h4>
+        <p><time datetime="2026-12-18T09:00">18 de diciembre · 9:00 a. m.</time></p>
+        <p>Exposición de fotografías y objetos en homenaje a la Empresa Salinera Frank País, por el 140.º aniversario de la autorización de la producción y exportación de sal por el Rey de España.</p>
+      </article>
+
+      <article class="actividad">
+        <h4>Peregrinación a la tumba de Doris Aguilar Olivero</h4>
+        <p><time datetime="2026-12-23T07:00">23 de diciembre · 7:00 a. m.</time></p>
+        <p>Peregrinación desde la Tarja Wilfredo Gonce Cabrera hasta el Cementerio Viejo para homenajear el 69.º aniversario del asesinato de Doris Aguilar Olivero, ocurrido el 29 de diciembre de 1957. Se depositará una ofrenda.</p>
+      </article>
+    </div>
   </article>
 </BaseLayout>
+
+<style>
+  .actividades-lista {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .actividad {
+    padding: 1rem 1.25rem;
+    background: white;
+    border-left: 4px solid var(--color-acento);
+    border-radius: 4px;
+  }
+
+  .actividad h4 {
+    margin: 0;
+    color: var(--color-acento);
+    font-family: var(--fuente-cuerpo);
+    font-size: 1.05rem;
+  }
+
+  .actividad p {
+    margin: 0.5rem 0 0;
+  }
+</style>

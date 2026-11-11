@@ -219,26 +219,6 @@ footer {
   color: var(--color-acento);
 }
 
-/*  Botones  */
-.boton-pago {
-  display: inline-block;
-  background-color: var(--color-acento);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  text-decoration: none;
-  margin-top: 0.5rem;
-  transition: background-color 0.2s ease;
-}
-
-.boton-pago:hover {
-  background-color: #6b4529;
-}
-
-.boton-pago:active {
-  background-color: #4a2f1c;
-}
-
 /* Servicios  */
 .servicios-grid {
   display: grid;

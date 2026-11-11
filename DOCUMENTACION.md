@@ -496,13 +496,8 @@ Solo renderiza la sección si hay contenido.
 **URL:** `/servicios`
 
 **Contenido:**
-- Visita guiada: precio 5 CUP por persona. Botón "Pagar con Transfermóvil" (placeholder).
+- Visitas guiadas o libres: precio 5 CUP por persona; pago en taquilla.
 - Talleres educativos (con imagen).
-- Nota sobre formas de pago.
-
-**Integración con Transfermóvil (pendiente):**
-
-El `href` del botón es `#`. Cuando el museo contrate el Bulevar Mi Transfer, se reemplazará por la URL real.
 
 ### 5.8 `src/pages/normativa.astro`
 
@@ -586,9 +581,8 @@ imagen_principal: "/imagenes/salas/sala1/edificio-historico.webp"
 7. **Main** (contenido principal).
 8. **Footer** (3 columnas + barra inferior).
 9. **Páginas estáticas** (`.pagina-estatica`).
-10. **Botones** (`.boton-pago` con hover y active).
-11. **Servicios** (grid, cards, precio).
-12. **Media query** (`max-width: 768px`).
+10. **Servicios** (grid, cards, precio).
+11. **Media query** (`max-width: 768px`).
 
 **Regla de uso:**
 
@@ -783,24 +777,7 @@ Cuando el drawer está abierto, esta línea impide el scroll del fondo.
 - **Navegación por teclado:** los `<button>` reales son accesibles.
 - **Tamaño de toque:** botones de al menos 44x44px en móvil.
 
-### 7.8 Botones con hover
-
-```css
-.boton-pago {
-  background-color: var(--color-acento);
-  transition: background-color 0.2s ease;
-}
-.boton-pago:hover {
-  background-color: #6b4529;
-}
-.boton-pago:active {
-  background-color: #4a2f1c;
-}
-```
-
-**Regla:** elegir 1-2 efectos por botón.
-
-### 7.9 Grid responsive sin media query
+### 7.8 Grid responsive sin media query
 
 ```css
 .grid {
@@ -1018,33 +995,9 @@ GitLens funciona sin VPN para funciones locales. Para iniciar sesión con GitKra
 
 Todo sitio web de entidad estatal debe registrarse en el **Registro Nacional de Sitios Web** del Instituto de Información y Comunicación Social (ICS). El trámite lo gestiona el museo.
 
-### 12.3 Pasarela de pago (Transfermóvil)
+### 12.3 Pagos
 
-**Requisitos para el museo:**
-- Estar inscrito en el Registro Central Comercial (RCC).
-- Tener línea móvil corporativa.
-- Correo con dominio `.cu`.
-- Certificado legal que acredite su constitución.
-
-**Servicio:** Bulevar Mi Transfer de ETECSA ofrece el módulo de "Tienda Virtual".
-
-**Lo que el museo recibe al contratar:**
-- URL de pago para poner en el `href` del botón.
-- QR dinámico generado por transacción.
-- Panel de administración de pagos.
-- Notificaciones de pago.
-
-**Lo que NO se debe hacer:**
-- Manejar datos de tarjetas en el frontend.
-- Guardar credenciales bancarias.
-- Procesar pagos sin la pasarela oficial.
-
-**Diferencia entre QR estático y dinámico:**
-
-| Tipo | Cómo funciona | Cuándo usarlo |
-|---|---|---|
-| QR estático | Imagen fija. El usuario escribe el monto. | Taquilla presencial |
-| QR dinámico | Se genera por transacción, con monto pre-cargado. | Tienda virtual |
+El sitio no ofrece pagos en línea. La propuesta de integrar Transfermóvil fue descartada; la página de servicios informa que el pago se realiza en taquilla.
 
 ### 12.4 Estado de las secciones obligatorias
 
@@ -1062,7 +1015,6 @@ Todo sitio web de entidad estatal debe registrarse en el **Registro Nacional de 
 | Accesibilidad | ✅ Implementado |
 | Privacidad | ✅ Implementado |
 | Mapa del sitio | ✅ Implementado |
-| Integración Transfermóvil | ⏳ Pendiente (contratar Bulevar) |
 | Meta tags y SEO | ⏳ Pendiente (Fase 3.4) |
 | Página 404 | ⏳ Pendiente (Fase 3.6) |
 | Favicon | ⏳ Pendiente (Fase 3.7) |
@@ -1175,7 +1127,6 @@ pandoc DOCUMENTACION.md -o DOCUMENTACION.docx
 - ⏳ 3.7 Favicon y branding.
 
 **Fase 4 — PENDIENTE (esperando al museo):**
-- Integración con pasarela de Transfermóvil.
 - Sistema de paywall (acceso a salas virtuales).
 - Optimización de imágenes (WebP, resize).
 

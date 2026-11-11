@@ -1,5 +1,5 @@
 ---
-titulo: "Concuro: Monumentos de mi barrio"
+titulo: "Concurso: Monumentos de mi barrio"
 fecha: "lunes 9:00am"
 descripcion: "Eventos dedicado a la investigacion de la localidad."
 imagen_principal: "/museo-web/imagenes/salas/sala2/exposicion-transitoria"
@@ -18,5 +18,3 @@ Del 10 de octubre al 10 de Diciembre, objetos pertenecientes a personalidades de
 - Lunes a viernes: 9:00 - 17:00
 - Sábados: 9:00 - 13:00
 - Domingos: cerrado
-
-Entrada: 5 CUP (visita guiada incluida).
