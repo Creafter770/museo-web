@@ -16,7 +16,7 @@ la pesca, la salina y el puerto.
 - [Manati](#objeto-12-fotografía-de-manatí)
 - Objeto 2
 
-## Objeto 1: Corales originarios de nuestra Bahía
+## Objeto 1: Diferentes tipos de Corales
 
 ![Corales](/museo-web/imagenes/salas/sala1/corales.webp)
 
@@ -28,7 +28,7 @@ Municipio Caimanera.
 
 ![Crustaceos](/museo-web/imagenes/salas/sala1/crustaceos.webp)
 
-Diversas especies de crustaceos cascarudos disecados que habitan en las orillas de 
+Diversas especies de crustaceos disecados que habitan en las orillas de 
 nuestras playas y en el fondo marino de la Bahia de Guantánamo.
 
 ## Objeto 3: Especies de Peces de nuestra Bahía
@@ -41,7 +41,7 @@ Diversas especies de peses conservados que habitan en nuestra Bahia de Guantána
 
 ![Fauna cubana](/museo-web/imagenes/salas/sala1/fauna-cubana.webp)
 
-Especies endémicas de Cuba disecadas y en peligrode extinción como la Jutía y 
+Especies endémicas de Cuba disecadas y en peligro de extinción como la Jutía y 
 el Majá de Santamaría.
 
 ## Objeto 5: Aves cubanas
@@ -49,7 +49,7 @@ el Majá de Santamaría.
 ![Aves cubanas](/museo-web/imagenes/salas/sala1/aves.webp)
 
 Aves que surcan nuestro cielo cubano como el emblemático tocororo siendo 
-uno de nuestros símbolos patrios.
+uno de nuestros atributos nacionales.
 
 ## Objeto 6: Mariposas de nuestra localidad
 
