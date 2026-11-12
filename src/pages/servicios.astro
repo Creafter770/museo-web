@@ -8,6 +8,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
   <div class="servicios-grid">
     <div class="servicio-card">
+      <img
+        src="/museo-web/imagenes/servicios/visita-guiada.webp"
+        alt="Visitantes recorren una exposición del museo"
+        class="servicio-imagen"
+      />
       <h3>Visita Guiadas o Libres</h3>
       <p>Recorrido guiado por nuestras salas de historia y naturaleza.</p>
       <p class="precio">Precio: 5 CUP por persona</p>
@@ -21,7 +26,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       />
       <h3>Talleres Educativos</h3>
       <p>Actividades para niños y jóvenes orientadas al conocimiento del patrimonio local.</p>
-      <p class="disponibilidad">Consultar disponibilidad</p>
+      <a href="/museo-web/eventos" class="boton-eventos">Ver eventos</a>
     </div>
   </div>
 
@@ -29,3 +34,29 @@ import BaseLayout from "../layouts/BaseLayout.astro";
     <small>El pago se realiza en taquilla.</small>
   </p>
 </BaseLayout>
+
+<style>
+  .boton-eventos {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.65rem 1.1rem;
+    border-radius: 6px;
+    background: var(--color-acento);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    transition:
+      background-color 0.2s,
+      transform 0.2s;
+  }
+
+  .boton-eventos:hover {
+    background: #6b302d;
+    transform: translateY(-2px);
+  }
+
+  .boton-eventos:focus-visible {
+    outline: 3px solid var(--color-acento);
+    outline-offset: 3px;
+  }
+</style>

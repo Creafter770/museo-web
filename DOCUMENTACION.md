@@ -1021,15 +1021,17 @@ El sitio no ofrece pagos en línea. La propuesta de integrar Transfermóvil fue 
 
 ---
 
-### 12.5 Estado de revisión técnica (11 de noviembre de 2026)
+### 12.5 Estado de revisión técnica (12 de noviembre de 2026)
 
 - `npm audit`: sin vulnerabilidades reportadas después de actualizar las dependencias transitivas en `package-lock.json`.
 - No se identificaron vulnerabilidades explotables en el código de la aplicación durante la revisión estática.
-- La compilación no pudo validarse después de la actualización: el binding nativo de Rolldown instalado localmente termina con `Bus error`. Se requiere una instalación limpia de dependencias y volver a ejecutar `npm run build` antes de confirmar el estado del build.
+- `npm run build` genera correctamente las 22 páginas. Si Rolldown no encuentra su binding nativo, reinstalar con `npm ci --include=optional`.
+- La imagen de fondo del inicio se carga desde `BASE_URL`; el build ya no genera la advertencia de Vite sobre `hero.webp`.
+- El menú móvil sincroniza su estado visual con `aria-hidden`, `inert` y `aria-expanded`; Escape lo cierra y devuelve el foco al botón.
+- Servicios muestra imágenes para visitas guiadas y talleres educativos; el botón de talleres enlaza a Eventos. El pago en línea fue descartado y el pago se informa en taquilla.
 - La foto de la directora apunta a `public/imagenes/contactos/ejemplo.webp`, archivo que no existe. Pendiente recibir la imagen correcta.
 - Las fechas de los eventos usan texto como `lunes 9:00am`, que no es interpretable como fecha por JavaScript; además, el evento “Concurso: Monumentos de mi barrio” usa el campo `imagen_principal`, mientras las plantillas esperan `imagen`, y su ruta de imagen no existe. Pendiente confirmar fechas e imágenes con el museo.
 - La imagen social predeterminada se construye sin el prefijo `/museo-web`; requiere corregirse para que apunte al archivo publicado bajo GitHub Pages.
-- El menú móvil conserva `aria-hidden="true"` cuando se abre; queda pendiente sincronizar ese atributo y el estado accesible del botón.
 
 Los pendientes que dependen de fechas, fotografías o confirmaciones institucionales se dejan sin modificar hasta contar con esos datos.
 

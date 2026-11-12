@@ -88,7 +88,13 @@ const imagenCompleta = `${siteURL}${image}`;
           <a href="/museo-web/transparencia">Transparencia</a>
         </nav>
 
-        <button class="menu-boton" id="menu-abrir" aria-label="Abrir menú">
+        <button
+          class="menu-boton"
+          id="menu-abrir"
+          aria-label="Abrir menú"
+          aria-controls="drawer"
+          aria-expanded="false"
+        >
           <span></span>
           <span></span>
           <span></span>
@@ -98,7 +104,7 @@ const imagenCompleta = `${siteURL}${image}`;
 
     <div class="overlay" id="overlay"></div>
 
-    <aside class="drawer" id="drawer" aria-hidden="true">
+    <aside class="drawer" id="drawer" aria-hidden="true" inert>
       <div class="drawer-header">
         <span class="drawer-titulo">Menú</span>
         <button class="drawer-cerrar" id="menu-cerrar" aria-label="Cerrar menú"
@@ -136,23 +142,45 @@ const imagenCompleta = `${siteURL}${image}`;
       const overlay = document.getElementById("overlay");
       const enlacesDrawer = document.querySelectorAll(".drawer-nav a");
 
-      function abrirDrawer() {
-        drawer?.classList.add("activo");
-        overlay?.classList.add("activo");
-        document.body.style.overflow = "hidden";
+      function establecerDrawerAbierto(abierto: boolean, devolverFoco = false) {
+        if (!drawer || !overlay || !botonAbrir) return;
+
+        drawer.classList.toggle("activo", abierto);
+        drawer.setAttribute("aria-hidden", String(!abierto));
+        drawer.toggleAttribute("inert", !abierto);
+        overlay.classList.toggle("activo", abierto);
+        botonAbrir.setAttribute("aria-expanded", String(abierto));
+        botonAbrir.setAttribute(
+          "aria-label",
+          abierto ? "Cerrar menú" : "Abrir menú",
+        );
+        document.body.style.overflow = abierto ? "hidden" : "";
+
+        if (abierto) {
+          botonCerrar?.focus();
+        } else if (devolverFoco) {
+          botonAbrir.focus();
+        }
       }
 
-      function cerrarDrawer() {
-        drawer?.classList.remove("activo");
-        overlay?.classList.remove("activo");
-        document.body.style.overflow = "";
-      }
-
-      botonAbrir?.addEventListener("click", abrirDrawer);
-      botonCerrar?.addEventListener("click", cerrarDrawer);
-      overlay?.addEventListener("click", cerrarDrawer);
+      botonAbrir?.addEventListener("click", () => {
+        establecerDrawerAbierto(true);
+      });
+      botonCerrar?.addEventListener("click", () => {
+        establecerDrawerAbierto(false, true);
+      });
+      overlay?.addEventListener("click", () => {
+        establecerDrawerAbierto(false, true);
+      });
       enlacesDrawer.forEach((enlace) => {
-        enlace.addEventListener("click", cerrarDrawer);
+        enlace.addEventListener("click", () => {
+          establecerDrawerAbierto(false);
+        });
+      });
+      document.addEventListener("keydown", (evento) => {
+        if (evento.key === "Escape" && drawer?.classList.contains("activo")) {
+          establecerDrawerAbierto(false, true);
+        }
       });
     </script>
 

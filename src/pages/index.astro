@@ -21,11 +21,12 @@ const eventos = (await getCollection("eventos"))
 
 const descripcionHome =
   'Museo Municipal "19 de Diciembre" de Caimanera. Explora nuestras salas, eventos y servicios culturales.';
+const imagenHero = `${import.meta.env.BASE_URL}/imagenes/hero.webp`;
 ---
 
 <BaseLayout title="Inicio" description={descripcionHome}>
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" style={`--imagen-hero: url("${imagenHero}")`}>
     <div class="hero-overlay"></div>
     <div class="hero-contenido">
       <h1>Bienvenido al Museo Municipal "19 de Diciembre"</h1>
@@ -133,7 +134,7 @@ const descripcionHome =
   /* HERO */
   .hero {
     position: relative;
-    background-image: url("/museo-web/imagenes/hero.webp");
+    background-image: var(--imagen-hero);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
